@@ -1,1 +1,1 @@
-require 'open_project/mock_auth'
+require "open_project/mock_auth"
