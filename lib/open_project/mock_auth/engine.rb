@@ -1,7 +1,7 @@
 # Prevent load-order problems in case openproject-plugins is listed after a plugin in the Gemfile
 # or not at all
 require 'open_project/plugins'
-require 'omniauth/strategies/mock_auth'
+require 'open_project/mock_auth/omniauth_strategies/mock_auth'
 
 module OpenProject::MockAuth
   class Engine < ::Rails::Engine
