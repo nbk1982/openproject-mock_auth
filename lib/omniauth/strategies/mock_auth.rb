@@ -13,19 +13,6 @@ module OmniAuth
       option :uid_field, :email
       option :fields, [:name, :email]
 
-      def request_phase
-        csrf_token = SecureRandom.base64(32)
-        request.session[:_csrf_token] = csrf_token
-
-        form = OmniAuth::Form.new(title: 'Mock Auth', url: callback_path)
-        options.fields.each do |field|
-          form.text_field field.to_s.capitalize.gsub('_', ' '), field.to_s
-        end
-        form.html "<input type=\"hidden\" name=\"authenticity_token\" value=\"#{csrf_token}\"/>"
-        form.button 'Sign In'
-        form.to_response
-      end
-
       # required to identify the user in OpenProject
       uid do
         info[options.uid_field]
@@ -41,6 +28,20 @@ module OmniAuth
           last_name: name.split(/\s/).last,
         }
       end
+
+      def request_phase
+        csrf_token = SecureRandom.base64(32)
+        request.session[:_csrf_token] = csrf_token
+
+        form = OmniAuth::Form.new(title: 'Mock Auth', url: callback_path)
+        options.fields.each do |field|
+          form.text_field field.to_s.capitalize.gsub('_', ' '), field.to_s
+        end
+        form.html "<input type=\"hidden\" name=\"authenticity_token\" value=\"#{csrf_token}\"/>"
+        form.button 'Sign In'
+        form.to_response
+      end
+
     end
   end
 end
